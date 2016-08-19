@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" href="/css/test.css">
+</head>
+
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>
+				添加配置
+			</legend>
+			<div class="form-group">
+				<label>名称:</label>
+				<input type="text" required="required" v-model="newProfile.profile_name" />
+			</div>
+			<div class="form-group">
+				<label>服务器地址:</label>
+				<input type="text" required="required" v-model="newProfile.server_address" />
+			</div>
+			<div class="form-group">
+				<label>服务器端口:</label>
+				<input type="text" required="required" v-model="newProfile.server_port" />
+			</div>
+			<div class="form-group">
+				<label>本地端口:</label>
+				<input type="text" required="required" v-model="newProfile.local_port" />
+			</div>
+			<div class="form-group">
+				<label>超时:</label>
+				<input type="text" required="required" v-model="newProfile.timeout" />
+			</div>
+			<div class="form-group">
+				<label>加密方式:</label>
+				<select v-model="newProfile.method">
+					<option value="aes-128-cfb">aes-128-cfb</option>
+					<option value="aes-192-cfb">aes-192-cfb</option>
+					<option value="aes-256-cfb">aes-256-cfb</option>
+					<option value="rc2-cfb">rc2-cfb</option>
+					<option value="rc2-md5">rc2-md5</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label></label>
+				<button type="submit" @click="createProfile">Create</button>
+			</div>
+		</fieldset>
+		<table>
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>地址</th>
+					<th>端口</th>
+					<th>本地端口</th>
+					<th>加密方式</th>
+					<th>状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="config in profile">
+					<td>{{ config.profile_name }}</td>
+					<td>{{ config.server_address }}</td>
+					<td>{{ config.server_port }}</td>
+					<td>{{ config.local_port }}</td>
+					<td>{{ config.method }}</td>
+					<td v-if="config.active== 1">激活</td>
+					<td v-else>
+						<button type="button" name="button"></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				newProfile: {
+					profile_name: "",
+					server_address: "",
+					server_port: "",
+					password: "",
+					local_port: "",
+					timeout: "",
+					method: "",
+					auth: "",
+					active: "0"
+				},
+				profile: [{
+					id: "1",
+					profile_name: "SFO",
+					server_address: "159.203.225.xxx",
+					server_port: "....",
+					password: "...",
+					local_port: "1080",
+					timeout: "600",
+					method: "aes-256-cfb",
+					auth: "0",
+					lastModifiedTime: "2016-08-16 18:12:57",
+					active: "1"
+				}, {
+					id: "2",
+					profile_name: "SFO2",
+					server_address: "104.236.142.xxx",
+					server_port: "....",
+					password: "....",
+					local_port: "1080",
+					timeout: "600",
+					method: "aes-256-cfb",
+					auth: "0",
+					lastModifiedTime: "2016-08-16 18:14:13",
+					active: "0"
+				}]
+			},
+			// 在 `methods` 对象中定义方法
+			methods: {
+				createProfile: function() {
+					this.profile.push(this.newProfile);
+					// 添加完newProfile对象后，重置newProfile对象
+					this.newProfile = {
+						profile_name: "",
+						server_address: "",
+						server_port: "",
+						password: "",
+						local_port: "",
+						timeout: "",
+						method: "",
+						auth: ""
+					};
+					console.log(this.profile);
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
