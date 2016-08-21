@@ -124,31 +124,20 @@
 					lastModifiedTime: "2016-08-16 18:14:13",
 					active: "0"
 				}],
-				url:'http://rap.taobao.org/mockjs/6646/getData.json?profile_name=&server_address=&timeout=&srever_port=&local_port=&method='
+				url:'http://rap.taobao.org/mockjs/6646/getData.json?profile_name=&server_address=&timeout=&srever_port=&local_port=&method=',
+				getUrl:'http://rap.taobao.org/mockjs/6646/setting/getprofile?'
+			},
+			//初始化
+			ready: function(){
+				this.$http.get(this.getUrl)
+					.then((response) => {
+						console.log(response.data);
+						this.profile.push(response.data)					
+				})
 			},
 			// 在 `methods` 对象中定义方法
 			methods: {
-				getRes: function(){
-					var vm = this;
-					vm.$http.get(vm.url)
-						.then((response) => {
-							console.log(response.data);
-						})
-				},
-				reCheckFunc: function(strRe, testedStr, TipClass, isOk){
-					console.log(testedStr)
-					if(strRe.test(testedStr)){
-						if(this.classObject[TipClass]){
-							this.classObject[TipClass] = false;
-						}
-					}else{
-						this.classObject[TipClass]= true;
-						aim = '';
-						isOk = false;
-					}
-				},
 				checkInfo: function(){
-
 					//获取所有配置项
 					var profile = this.newProfile;
 					var name = profile.profile_name;
@@ -242,7 +231,6 @@
 					return isOk;
 				},
 				createProfile: function() {
-					
 					if(this.checkInfo()){
 						this.$http.post(this.url, this.newProfile)
 						.then((response) => {
