@@ -165,8 +165,6 @@
 
 					var isOk = true;
 
-					var timeoutRe = /^[1-9]\d*$/;
-
 					//验证name
 					
 					if(name.trim() !== '') {
@@ -182,19 +180,53 @@
 					}
 
 					//验证address
-
-					this.reCheckFunc(ipRe, address, "wrongIp", isOk);
+					if(ipRe.test(address)){
+						console.log(address)
+						if(this.classObject.wrongIp){
+							this.classObject.wrongIp= false;
+						}
+					}else{
+						console.log("服务器地址格式出错");
+						this.classObject.wrongIp= true;
+						aim = '';
+						isOk = false;
+					}
 
 					//验证服务器端口
-
-					this.reCheckFunc(portRe, serverport, 'wrongServerport', isOk )
+					if(serverport >0 && serverport<65535){
+						if(this.classObject.wrongServerport){
+							this.classObject.wrongServerport = false;
+						}
+					}else{
+						console.log("服务器端口出错");
+						this.classObject.wrongServerport= true;
+						serverport ='';
+						isOk = false;
+					}
 					
 					//验证本地端口
-					this.reCheckFunc(portRe, lport, 'wrongLocalPort', isOk )
-
+					if(lport >0 && lport<65535){
+						if(this.classObject.wrongLocalPort){
+							this.classObject.wrongLocalPort = false;
+						}
+					}else{
+						console.log("本地端口出错");
+						this.classObject.wrongLocalPort= true;
+						lport = '';
+						isOk = false;
+					}
 
 					//验证超时
-					this.reCheckFunc(timeoutRe, timeout, 'wrongTimeout', isOk )
+					if(timeout > 0){
+						if(this.classObject.wrongTimeout){
+							this.classObject.wrongTimeout = false;
+						}
+					}else{
+						console.log("timeout 必须是数字");
+						this.classObject.wrongTimeout = true;
+						timeout = '';
+						isOk = true;
+					}
 
 
 					//验证method
