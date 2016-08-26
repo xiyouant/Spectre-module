@@ -27,6 +27,7 @@
 	</template>
 
 	<script type="text/javascript" src='js/vue.js'></script>
+	<script type="text/javascript" src="data/slideData.js"></script>
 	<script type="text/javascript">
 	/**	
 		参数： currentLet： 目前应该在的left值
@@ -34,21 +35,16 @@
 
 		原理： 通过set currenLeft 的值来改变一个 ul 的位置
 	**/
-
 		Vue.component('slider',{
 			template: '#slider',
 			data: function(){
 				return {
 					currentIdx: 0,
 					currentLeft:0+'px',
-					count:3,
+					count:imgData.length,
 					autoplay:true,
 					timer: null, // 用在在点击btn 的时候关掉定时器 不然的话就会出现问题
-					imgData:[
-						{title:'',href:'#',imgsrc:'http://7xlqb6.com1.z0.glb.clouddn.com/1.jpg',alt:'jpg1'},
-						{title:'',href:'#',imgsrc:'http://7xlqb6.com1.z0.glb.clouddn.com/2.jpeg',alt:'jpg2'},
-						{title:'',href:'#',imgsrc:'http://7xlqb6.com1.z0.glb.clouddn.com/3.jpg',alt:'jpg3'}
-					]
+					imgData: imgData
 				}
 			},
 			computed:{
@@ -81,7 +77,6 @@
 					}
 					this.getClass = now;
 					this.currentIdx = now;
-					console.log(this.currentIdx)
 				},
 				play:function(){	
 					var _that = this;
@@ -94,12 +89,14 @@
 					clearInterval(this.timer)
 				},
 				turnToPrev:function(){
-					this.pause();  //先关掉定时器 然后在turn()
+					this.pause();  //先关掉定时器 然后在turn() 然后再重新开启定时器
 					this.turn(-1);
+					this.play();
 				},
 				turnToNext: function(){
 					this.pause();
 					this.turn(1);
+					this.play();
 				}
 			},
 			ready: function(){
