@@ -1,0 +1,70 @@
+*{padding:0;margin:0;}
+a{text-decoration: none;}
+.clearfix{
+	zoom:1;
+}
+.clearfix:after{
+	content:'';
+	height:0;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+
+/*轮播图片大小*/
+.slider-wrap{
+	width:640px;
+	height:360px;
+	overflow: hidden;
+	position: relative;
+	top:0;
+	left: 0;
+}
+
+.slider-wrap ul{
+	/*width:1920px;*/
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.slider-wrap ul li{
+	list-style: none;
+	width:640px;
+	height:360px;
+	float: left;
+}
+.slider-wrap ul li a{
+	display: block;
+
+}
+.slider-wrap ul li img{
+	width:640px;
+	height:360px;
+	vertical-align:top;
+}
+.slide-animate{
+	transition: all 1s;
+}
+
+
+/*
+	button
+*/
+
+.btn{
+	width: 55px;
+    height: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
