@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>router</title>
+<link rel="stylesheet" href="css/router.css">
+<script type="text/javascript" src="data/job.json"></script>
+</head>
+<body>
+	<div id="app">
+		<div id="route">
+			<div class="nav-bar">
+				<ul class="clearfix">
+					<li >test</li>
+					<li v-for="value in object">
+						<a href="#">{{$key}}</a>
+					</li>
+				</ul>
+			</div>
+			<router-view></router-view>
+		</div>
+	</div>
+	
+	<template id="technology">
+		这里是技术类的东东
+	</template>
+	<template id="business">
+		这里是业务类的东东
+	</template>
+	<template id="product">
+		这里是产品类的东东
+	</template>
+	<template id="design">
+		这里是设计类的东东
+	</template>
+	<template id="operation">
+		这里是技术类的东东
+	</template>
+	
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="js/vue-router.js"></script>
+	<script type="text/javascript">
+		//test
+		var rdata = navData;
+		console.log(rdata)
+		//组件
+		var Technology = Vue.extend({
+			template: '#technology'
+		})
+		var Business = Vue.extend({
+			template: '#business'
+		})
+		var Product = Vue.extend({
+			template: '#product'
+		})
+		var Design = Vue.extend({
+			template: '#design'
+		})
+		var Operation = Vue.extend({
+			template: '#operation'
+		})
+		//根路由
+		var App = Vue.extend({})
+		
+		//创建路由实例
+    	var router = new VueRouter();
+		
+		//分别写东东
+		router.map({
+			'/':{
+				component: Technology
+			},
+			'/technology':{
+				component: Technology
+			},
+			'/business':{
+				component: Business
+			},
+			'/product':{
+				component:Product
+			},
+			'/design':{
+				component:Design	
+			},
+			'/operation':{
+				component: Operation
+			}
+		})
+		
+		 //启动路由
+    	 router.start(App, '#route');
+		
+		 new Vue({
+			el:'#app',
+			data:{
+				currentIdx: 0,
+				 object: navData
+			},
+			ready: function(){
+				
+			}
+		})
+		
+	</script>
+</body>
+</html>

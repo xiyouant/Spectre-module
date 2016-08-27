@@ -1,0 +1,63 @@
+*{padding:0;margin:0;}
+a{text-decoration: none;}
+li{list-style: none;}
+.clearfix{
+	zoom:1;
+}
+.clearfix:after{
+	content:'';
+	height:0;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+/*
+	nav-bar
+*/
+
+.nav-bar{
+	width:1200px;
+	height:50px;
+	line-height:50px;
+	border-bottom:1px solid #ccc;
+	margin:30px auto;
+}
+.nav-bar li{
+	float: left;
+}
+.nav-bar li a{
+	display: block;
+	height:50px;
+	line-height: 50px;
+	border-bottom:1px solid transparent;
+	cursor: pointer;
+	margin-right:20px;
+	color:#000;
+}
+.nav-bar li a.active{
+	border-bottom:1px solid #cc0000;
+	color:#cc0000;
+}
+
+/*
+	路由对应的组件的样式
+*/
+
+.nav-con{
+	width:1200px;
+	margin:0 auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
