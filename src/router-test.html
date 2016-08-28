@@ -8,15 +8,16 @@
 </head>
 <body>
 	<div id="app">
-		<div id="route">
-			<div class="nav-bar">
-				<ul class="clearfix">
-					<li >test</li>
-					<li v-for="value in object">
-						<a href="#">{{$key}}</a>
-					</li>
-				</ul>
-			</div>
+		<div class="nav-bar">
+			<ul class="clearfix">
+				<li><a href="#" v-link="{path:'/technology'}" class="active">技术</a></li>
+				<li><a href="#" v-link="{path:'/business'}">业务</a></li>
+				<li><a href="#" v-link="{path:'/product'}">产品</a></li>
+				<li><a href="#" v-link="{path:'/design'}">设计</a></li>
+				<li><a href="#" v-link="{path:'/operation'}">运营</a></li>
+			</ul>
+		</div>
+		<div class="nav-con">
 			<router-view></router-view>
 		</div>
 	</div>
@@ -41,8 +42,7 @@
 	<script type="text/javascript" src="js/vue-router.js"></script>
 	<script type="text/javascript">
 		//test
-		var rdata = navData;
-		console.log(rdata)
+		console.log()
 		//组件
 		var Technology = Vue.extend({
 			template: '#technology'
@@ -60,7 +60,7 @@
 			template: '#operation'
 		})
 		//根路由
-		var App = Vue.extend({})
+		var Root = Vue.extend({})
 		
 		//创建路由实例
     	var router = new VueRouter();
@@ -88,16 +88,12 @@
 		})
 		
 		 //启动路由
-    	 router.start(App, '#route');
+    	 router.start(Root, '#app');
 		
-		 new Vue({
+		new Vue({
 			el:'#app',
 			data:{
-				currentIdx: 0,
-				 object: navData
-			},
-			ready: function(){
-				
+				currentIdx: 0
 			}
 		})
 		
