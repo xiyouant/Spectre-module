@@ -41,7 +41,6 @@ input, select, textarea {
 
 nav {
     background: linear-gradient(180deg, #f03, #f5a);
-    width: 8%;
     height: 100%;
     position: fixed;
     left: 0;
@@ -101,7 +100,6 @@ nav>ul li a:hover path {
     font-size: 1em;
     line-height: 1.5;
     color: rgba(255, 255, 255, .5);
-    width: 8%;
     position: fixed;
     bottom: 0;
 }

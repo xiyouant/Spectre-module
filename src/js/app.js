@@ -150,7 +150,7 @@ var domainGraph = function() {
 
 var trafficGraph = function() {
     $.ajax({
-        url: 'http://127.0.0.1/index.php/api/query?query=traffic',
+        url: 'http://192.168.2.1/api/query?query=traffic',
         type: 'GET',
         async: true,
         cache: false,
@@ -158,17 +158,17 @@ var trafficGraph = function() {
         success: function(data) {
             var timeStampArray = [];
             //ShadowCopy
-            var upload = data[0][1].wlan0[1].upload.slice();
-            var download = data[0][1].wlan0[0].download.slice();
-            for (var i = 0; i < data[0][1].wlan0[2].timeStamp.length; i++) {
+            var upload = data[0][3].p3p1[1].upload.slice();
+            var download = data[0][3].p3p1[0].download.slice();
+            for (var i = 0; i < data[0][3].p3p1[2].timeStamp.length; i++) {
                 //时间格式化 push 到时间戳数组
-                timeStampArray.push(dateFormat.h_m(data[0][1].wlan0[2].timeStamp[i]));
+                timeStampArray.push(dateFormat.h_m(data[0][3].p3p1[2].timeStamp[i]));
             }
 
             /*图表设置*/
             //副标题
             var subtitle = {
-                text: 'interface:' + ' ' + getInterface(data)[1],
+                text: 'interface:' + ' ' + getInterface(data)[3],
                 style: {
                     color: '#6b717d',
                     fontSize: '12px',
@@ -197,30 +197,30 @@ var trafficGraph = function() {
             };
 
             /*Debug start*/
-            // interface:wlan
+            // interface:p3p1
             console.log("interface:")
             console.log(data[0][1]);
-            // wlan0 下载
-            console.log("wlan0 下载:");
-            console.log(data[0][1].wlan0[0].download);
-            // wlan0 上传
-            console.log("wlan0 上传:");
-            console.log(data[0][1].wlan0[1].upload);
-            // wlan0 时间戳
-            console.log("wlan0 时间戳:");
-            console.log(data[0][1].wlan0[2].timeStamp);
-            // wlan0 时间戳数组
-            console.log("wlan0 时间戳数组:");
+            // p3p1 下载
+            console.log("p3p1 下载:");
+            console.log(data[0][3].p3p1[0].download);
+            // p3p1 上传
+            console.log("p3p1 上传:");
+            console.log(data[0][3].p3p1[1].upload);
+            // p3p1 时间戳
+            console.log("p3p1 时间戳:");
+            console.log(data[0][3].p3p1[2].timeStamp);
+            // p3p1 时间戳数组
+            console.log("p3p1 时间戳数组:");
             console.log(timeStampArray);
             //网络接口
             console.log("网络接口:");
             console.log(getInterface(data));
             console.log(data[0]);
-            trafficStatistics.Receive("#wlan0-receive", (data[0][1].wlan0[0].download[0]));
-            trafficStatistics.Transmit("#wlan0-transmit", (data[0][1].wlan0[1].upload[0]));
-            trafficStatistics.Receive("#lo-receive", (data[0][2].lo[0].download[0]));
-            trafficStatistics.Transmit("#lo-transmit", (data[0][2].lo[1].upload[0]));
-            trafficStatistics.Summary("#summary", (data[0][1].wlan0[0].download[0]) + (data[0][1].wlan0[1].upload[0]));
+            trafficStatistics.Receive("#p3p1-receive", ((data[0][3].p3p1[0].download[0]) / 1000).toFixed(2));
+            trafficStatistics.Transmit("#p3p1-transmit", ((data[0][3].p3p1[1].upload[0]) / 1000).toFixed(2));
+            trafficStatistics.Transmit("#p4p1-transmit", ((data[0][2].p4p1[1].upload[0]) / 1000).toFixed(2));
+            trafficStatistics.Receive("#p4p1-receive", ((data[0][2].p4p1[0].download[0]) / 1000).toFixed(2));
+            trafficStatistics.Summary("#summary", (((data[0][3].p3p1[0].download[0]) + (data[0][3].p3p1[1].upload[0])) / 1000).toFixed(2));
 
         },
         error: function(e) {
@@ -396,6 +396,6 @@ var traffic_options = {
 $(document).ready(function() {
     domainGraph();
     trafficGraph();
-    setInterval("domainGraph();", 30000);
-    setInterval("trafficGraph();", 30000);
+    setInterval("domainGraph();", 600000);
+    setInterval("trafficGraph();", 600000);
 });
