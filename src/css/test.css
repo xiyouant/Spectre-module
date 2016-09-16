@@ -122,3 +122,31 @@ button:hover {
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
 }
+
+/* 校验出错 */
+input[type=text].wrongTip {border:1px solid red;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

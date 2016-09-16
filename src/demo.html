@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title></title>
-	<link rel="stylesheet" href="/css/test.css">
+	<link rel="stylesheet" href="css/test.css">
 </head>
 
 <body>
@@ -15,23 +15,24 @@
 			</legend>
 			<div class="form-group">
 				<label>名称:</label>
-				<input type="text" required="required" v-model="newProfile.profile_name" />
+				<input type="text" required="required" v-model="newProfile.profile_name" v-bind:class="{'wrongTip': classObject.wrongName}"/>
 			</div>
 			<div class="form-group">
 				<label>服务器地址:</label>
-				<input type="text" required="required" v-model="newProfile.server_address" />
+				<input type="text" required="required" v-model="newProfile.server_address" v-bind:class="{'wrongTip': classObject.wrongIp}"/>
 			</div>
 			<div class="form-group">
 				<label>服务器端口:</label>
-				<input type="text" required="required" v-model="newProfile.server_port" />
+				<input type="text" required="required" v-model="newProfile.server_port" v-bind:class="{'wrongTip': classObject.wrongServerport}"/>
 			</div>
 			<div class="form-group">
 				<label>本地端口:</label>
-				<input type="text" required="required" v-model="newProfile.local_port" />
+				<input type="text" required="required" v-model="newProfile.local_port"  v-bind:class="{'wrongTip': classObject.wrongLocalPort}"/>
 			</div>
 			<div class="form-group">
 				<label>超时:</label>
-				<input type="text" required="required" v-model="newProfile.timeout" />
+				<input type="text" required="required" v-model="newProfile.timeout" 
+				v-bind:class="{'wrongTip': classObject.wrongTimeout}"/>
 			</div>
 			<div class="form-group">
 				<label>加密方式:</label>
@@ -75,10 +76,18 @@
 		</table>
 	</div>
 	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="js/vue-resource.js"></script>
 	<script type="text/javascript">
 		var vm = new Vue({
 			el: '#app',
 			data: {
+				classObject:{
+					'wrongName':false,
+					'wrongIp': false,
+					'wrongServerport':false,
+					'wrongLocalPort': false,
+					'wrongTimeout':false
+				},
 				newProfile: {
 					profile_name: "",
 					server_address: "",
@@ -114,12 +123,125 @@
 					auth: "0",
 					lastModifiedTime: "2016-08-16 18:14:13",
 					active: "0"
-				}]
+				}],
+				url:'http://rap.taobao.org/mockjs/6646/getData.json?profile_name=&server_address=&timeout=&srever_port=&local_port=&method=',
+				getUrl:'http://rap.taobao.org/mockjs/6646/setting/getprofile?'
+			},
+			//初始化
+			ready: function(){
+				this.$http.get(this.getUrl)
+					.then((response) => {
+						console.log(response.data);
+						this.profile.push(response.data)					
+				})
 			},
 			// 在 `methods` 对象中定义方法
 			methods: {
+				checkInfo: function(){
+					//获取所有配置项
+					var profile = this.newProfile;
+					var name = profile.profile_name;
+					var address = profile.server_address;
+					var serverport = profile.server_port;
+					var lport = profile.local_port;
+					var timeout = profile.timeout;
+					var method = profile.method;
+
+					//验证正则
+					var portRe = /^[0-9]+$/;
+
+					var ipRe = /(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)\.(25[0-5]|2[0-4]\d|[0-1]\d{2}|[1-9]?\d)/;
+
+					var isOk = true;
+
+					//验证name
+					
+					if(name.trim() !== '') {
+						console.log(name)
+						// return name;
+						if(this.classObject.wrongName){
+							this.classObject.wrongName = false;
+						}
+					}else{
+						console.log("name 不能为空");
+						this.classObject.wrongName = true;
+						isOk = false;
+					}
+
+					//验证address
+					if(ipRe.test(address)){
+						console.log(address)
+						if(this.classObject.wrongIp){
+							this.classObject.wrongIp= false;
+						}
+					}else{
+						console.log("服务器地址格式出错");
+						this.classObject.wrongIp= true;
+						aim = '';
+						isOk = false;
+					}
+
+					//验证服务器端口
+					if(portRe.test(serverport) && serverport >0 && serverport<65535){
+						if(this.classObject.wrongServerport){
+							this.classObject.wrongServerport = false;
+						}
+					}else{
+						console.log("服务器端口出错");
+						this.classObject.wrongServerport= true;
+						serverport ='';
+						isOk = false;
+					}
+					
+					//验证本地端口
+					if(portRe.test(lport) && lport >0 && lport<65535){
+						if(this.classObject.wrongLocalPort){
+							this.classObject.wrongLocalPort = false;
+						}
+					}else{
+						console.log("本地端口出错");
+						this.classObject.wrongLocalPort= true;
+						lport = '';
+						isOk = false;
+					}
+
+					//验证超时
+					if(timeout > 0){
+						if(this.classObject.wrongTimeout){
+							this.classObject.wrongTimeout = false;
+						}
+					}else{
+						console.log("timeout 必须是数字");
+						this.classObject.wrongTimeout = true;
+						timeout = '';
+						isOk = true;
+					}
+
+
+					//验证method
+					if(method !== ''){
+						console.log(method)
+						// return method;
+					}else{
+						console.log("请选择method");
+						isOk = false;
+					}
+
+					//返回一个boolean 值
+					return isOk;
+				},
 				createProfile: function() {
-					this.profile.push(this.newProfile);
+					if(this.checkInfo()){
+						this.$http.post(this.url, this.newProfile)
+						.then((response) => {
+							// vm.getRes();  在前端显示
+							console.log(response.data);
+							this.profile.push(response.data)
+						});
+					}else{
+						console.log("配置出错，无法发送请求")
+					}
+			
 					// 添加完newProfile对象后，重置newProfile对象
 					this.newProfile = {
 						profile_name: "",
@@ -131,11 +253,10 @@
 						method: "",
 						auth: ""
 					};
-					console.log(this.profile);
+					
 				}
 			}
 		})
 	</script>
 </body>
-
 </html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>router</title>
+<link rel="stylesheet" href="css/router.css">
+<script type="text/javascript" src="data/job.json"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="nav-bar">
+			<ul class="clearfix">
+				<li><a href="#" v-link="{path:'/technology'}" class="active">技术</a></li>
+				<li><a href="#" v-link="{path:'/business'}">业务</a></li>
+				<li><a href="#" v-link="{path:'/product'}">产品</a></li>
+				<li><a href="#" v-link="{path:'/design'}">设计</a></li>
+				<li><a href="#" v-link="{path:'/operation'}">运营</a></li>
+			</ul>
+		</div>
+		<div class="nav-con">
+			<router-view></router-view>
+		</div>
+	</div>
+	
+	<template id="technology">
+		这里是技术类的东东
+	</template>
+	<template id="business">
+		这里是业务类的东东
+	</template>
+	<template id="product">
+		这里是产品类的东东
+	</template>
+	<template id="design">
+		这里是设计类的东东
+	</template>
+	<template id="operation">
+		这里是技术类的东东
+	</template>
+	
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="js/vue-router.js"></script>
+	<script type="text/javascript">
+		//test
+		console.log()
+		//组件
+		var Technology = Vue.extend({
+			template: '#technology'
+		})
+		var Business = Vue.extend({
+			template: '#business'
+		})
+		var Product = Vue.extend({
+			template: '#product'
+		})
+		var Design = Vue.extend({
+			template: '#design'
+		})
+		var Operation = Vue.extend({
+			template: '#operation'
+		})
+		//根路由
+		var Root = Vue.extend({})
+		
+		//创建路由实例
+    	var router = new VueRouter();
+		
+		//分别写东东
+		router.map({
+			'/':{
+				component: Technology
+			},
+			'/technology':{
+				component: Technology
+			},
+			'/business':{
+				component: Business
+			},
+			'/product':{
+				component:Product
+			},
+			'/design':{
+				component:Design	
+			},
+			'/operation':{
+				component: Operation
+			}
+		})
+		
+		 //启动路由
+    	 router.start(Root, '#app');
+		
+		new Vue({
+			el:'#app',
+			data:{
+				currentIdx: 0
+			}
+		})
+		
+	</script>
+</body>
+</html>
